@@ -1,3 +1,5 @@
+require('dotenv').config(); // 🔥 обязательно первым
+
 const { Sequelize } = require('sequelize');
 
 const sequelize = process.env.DATABASE_URL

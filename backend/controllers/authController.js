@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const { User } = require('../models');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
         JWT_SECRET,
         { expiresIn: '2h' }
       );
-  
+
       res.json({ token });
     } catch (err) {
       console.error(err);
