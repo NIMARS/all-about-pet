@@ -8,6 +8,9 @@ pnpm-debug.log*
 # INFO folder
 INFO/
 
+# readme tmp
+readmehided.md
+
 # Logs
 logs/
 *.log
