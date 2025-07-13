@@ -1,0 +1,87 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# INFO folder
+INFO/
+
+# Logs
+logs/
+*.log
+
+# Runtime
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# dotenv
+.env
+.env.*.local
+
+# Database / backups
+*.sqlite
+*.db
+*.sql
+dump.sql
+
+# Postgres artifacts
+.pgdata/
+.pgadmin/
+*.pgsql
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors & IDEs
+.vscode/
+.idea/
+*.swp
+
+# Frontend build (React)
+frontend/build/
+frontend/dist/
+frontend/.vite/
+frontend/node_modules/
+
+# Backend build (если билдим)
+backend/node_modules/
+backend/dist/
+backend/build/
+
+# Coverage / test
+coverage/
+*.lcov
+
+# React testing artifacts
+jest.config.js
+jest.setup.js
+*.test.js
+*.spec.js
+*.snap
+
+# Swagger (если временные автогенерации)
+swagger-output.json
+
+# Misc
+*.tgz
+*.zip
+*.bak
+*.tmp
+*.log
+*.bak
+
+# MacOS
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# Windows
+ehthumbs.db
+Desktop.ini
