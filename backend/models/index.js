@@ -1,16 +1,15 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database'); // ← тут уже готовый Sequelize-инстанс
 
-// 💡 Инициализируем модели
 const User = require('./User')(sequelize, DataTypes);
 const Pet = require('./Pet')(sequelize, DataTypes);
 
-// 💡 Теперь создаём связи
 User.belongsToMany(Pet, {
   through: 'user_pets',
   as: 'pets',
   foreignKey: 'user_id',
 });
+
 Pet.belongsToMany(User, {
   through: 'user_pets',
   as: 'users',
@@ -22,4 +21,17 @@ module.exports = {
   Sequelize,
   User,
   Pet,
+};
+
+const Event = require('./Event')(sequelize, DataTypes);
+
+Pet.hasMany(Event, { foreignKey: 'pet_id', as: 'events' });
+Event.belongsTo(Pet, { foreignKey: 'pet_id', as: 'pet' });
+
+module.exports = {
+  sequelize,
+  Sequelize,
+  User,
+  Pet,
+  Event,
 };

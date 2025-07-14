@@ -18,6 +18,10 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/pets', petRoutes);
 
+const eventRoutes = require('./routes/eventRoutes');
+app.use('/api', eventRoutes);
+
+
 // Тестовая ручка
 app.get('/api/health', (req, res) => {
   res.send('OK');

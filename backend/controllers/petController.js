@@ -40,7 +40,6 @@ exports.getPetById = async (req, res) => {
   }
 };
 
-
 exports.createPet = async (req, res) => {
   try {
     const { name, species, breed, color, birthday, birthplace, location, bio, photo_url, privacy } = req.body;

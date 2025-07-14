@@ -1,19 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
     const Pet = sequelize.define('Pet', {
       name: {
-        type: DataTypes.STRING(100),
+        type:     DataTypes.STRING(100),
         allowNull: false,
       },
-      species: DataTypes.STRING(100),
-      breed: DataTypes.STRING(100),
-      color: DataTypes.STRING(50),
-      birthday: DataTypes.DATEONLY,
+      species:    DataTypes.STRING(100),
+      breed:      DataTypes.STRING(100),
+      color:      DataTypes.STRING(50),
+      birthday:   DataTypes.DATEONLY,
       birthplace: DataTypes.STRING(100),
-      location: DataTypes.STRING(100),
-      bio: DataTypes.TEXT,
-      photo_url: DataTypes.TEXT,
+      location:   DataTypes.STRING(100),
+      bio:        DataTypes.TEXT,
+      photo_url:  DataTypes.TEXT,
       privacy: {
-        type: DataTypes.BOOLEAN,
+        type:     DataTypes.BOOLEAN,
         defaultValue: false,
       },
     }, {
