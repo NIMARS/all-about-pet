@@ -1,6 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const eventController = require('../controllers/eventController');
+const authMiddleware = require('../middleware/authMiddleware');
+const checkRole = require('../middleware/roleMiddleware');
+
+router.post(
+  '/',
+  authMiddleware,
+  checkRole(['admin', 'owner', 'vet', 'volunteer']),
+  eventController.createEvent
+);
+
+router.use(authMiddleware); // little protection
 
 // /api/pets/:petId/events
 router.post('/pets/:petId/events', eventController.createEvent);

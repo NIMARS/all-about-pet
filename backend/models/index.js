@@ -1,9 +1,13 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // ← тут уже готовый Sequelize-инстанс
+const sequelize = require('../config/database');
 
 const User = require('./User')(sequelize, DataTypes);
 const Pet = require('./Pet')(sequelize, DataTypes);
+const Event = require('./Event')(sequelize, DataTypes);
+const Document = require('./document')(sequelize, DataTypes);
+const UserPet = require('./UserPet')(sequelize, DataTypes);
 
+// --- Ассоциации ---
 User.belongsToMany(Pet, {
   through: 'user_pets',
   as: 'pets',
@@ -16,22 +20,23 @@ Pet.belongsToMany(User, {
   foreignKey: 'pet_id',
 });
 
-module.exports = {
-  sequelize,
-  Sequelize,
-  User,
-  Pet,
-};
+Pet.hasMany(Event, {
+  foreignKey: 'pet_id',
+  as: 'events',
+});
 
-const Event = require('./Event')(sequelize, DataTypes);
+Event.belongsTo(Pet, {
+  foreignKey: 'pet_id',
+  as: 'pet',
+});
 
-Pet.hasMany(Event, { foreignKey: 'pet_id', as: 'events' });
-Event.belongsTo(Pet, { foreignKey: 'pet_id', as: 'pet' });
-
+// --- models export---
 module.exports = {
   sequelize,
   Sequelize,
   User,
   Pet,
   Event,
+  Document,
+  UserPet,
 };

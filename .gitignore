@@ -8,6 +8,9 @@ pnpm-debug.log*
 # INFO folder
 INFO/
 
+# uploads folder
+uploads/
+
 # readme tmp
 readmehided.md
 

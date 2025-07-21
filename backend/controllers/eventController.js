@@ -1,35 +1,58 @@
 const { Event, Pet, User } = require('../models');
 
-exports.createEvent = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
-    const { petId } = req.params;
-    const { title, description, date, time, type, repeat, notes, status } = req.body;
+    const userId = req.user.id;
+    const { status, date, pet_id } = req.query;
 
-    const pet = await Pet.findByPk(petId);
-    if (!pet) return res.status(404).json({ error: 'Pet not found' });
+    const petLinks = await UserPet.findAll({ where: { user_id: userId } });
+    const petIds = petLinks.map(link => link.pet_id);
 
-    const event = await Event.create({
-      title,
-      description,
-      date,
-      time,
-      type,
-      repeat,
-      notes,
-      status,
-      pet_id: petId,
+    const filter = {
+      pet_id: pet_id ? pet_id : petIds,
+    };
+
+    if (status) filter.status = status;
+    if (date) filter.event_date = date;
+
+    const events = await Event.findAll({
+      where: filter,
+      include: [{ model: Pet, as: 'pet', attributes: ['id', 'name'] }],
     });
 
-    res.status(201).json(event);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.json(events);
+  } catch (e) {
+    res.status(500).json({ message: 'Failed to fetch events', error: e.message });
   }
 };
+
+
+exports.createEvent = async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const {
+        id, title, description, event_date, type,
+        repeat, notes, status, pet_id,
+      } = req.body;
+  
+      const link = await UserPet.findOne({ where: { user_id: userId, pet_id } });
+      if (!link) return res.status(403).json({ message: 'Pet not linked to user' });
+  
+      const event = await Event.create({
+        title, description, event_date, type,
+        repeat, notes, status, pet_id,
+      });
+  
+      res.status(201).json(event);
+    } catch (e) {
+      res.status(500).json({ message: 'Failed to create event', error: e.message });
+    }
+  };
 
 exports.getEventsByPet = async (req, res) => {
   try {
     const { petId } = req.params;
-    const events = await Event.findAll({ where: { pet_id: petId } });
+    const events    = await Event.findAll({ where: { pet_id: petId } });
     res.json(events);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -47,24 +70,37 @@ exports.getEventById = async (req, res) => {
 };
 
 exports.updateEvent = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const [updated] = await Event.update(req.body, { where: { id } });
-    if (!updated) return res.status(404).json({ error: 'Event not found' });
-    const updatedEvent = await Event.findByPk(id);
-    res.json(updatedEvent);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+    try {
+      const userId  = req.user.id;
+      const eventId = req.params.id;
+      const event   = await Event.findByPk(eventId);
+  
+      if (!event) return res.status(404).json({ message: 'Event not found' });
+  
+      const link = await UserPet.findOne({ where: { user_id: userId, pet_id: event.pet_id } });
+      if (!link) return res.status(403).json({ message: 'Access denied to this event' });
+  
+      await event.update(req.body);
+      res.json(event);
+    } catch (e) {
+      res.status(500).json({ message: 'Failed to update event', error: e.message });
+    }
+  };
 
 exports.deleteEvent = async (req, res) => {
   try {
-    const { id } = req.params;
-    const deleted = await Event.destroy({ where: { id } });
-    if (!deleted) return res.status(404).json({ error: 'Event not found' });
-    res.status(204).send();
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const userId = req.user.id;
+    const eventId = req.params.id;
+    const event = await Event.findByPk(eventId);
+
+    if (!event) return res.status(404).json({ message: 'Event not found' });
+
+    const link = await UserPet.findOne({ where: { user_id: userId, pet_id: event.pet_id } });
+    if (!link) return res.status(403).json({ message: 'Access denied to this event' });
+
+    await event.destroy();
+    res.json({ message: 'Event deleted' });
+  } catch (e) {
+    res.status(500).json({ message: 'Failed to delete event', error: e.message });
   }
 };

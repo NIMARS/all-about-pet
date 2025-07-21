@@ -14,15 +14,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATEONLY,
             allowNull: false,
         },
-        time: DataTypes.TIME,
+        event_date: { type: DataTypes.DATEONLY, allowNull: false },
         type: {
             type: DataTypes.ENUM('vet_visit', 'helminth_pills', 'vaccination', 'grooming', 'birthday', 'medicine', 'other'),
             allowNull: false,
         },
         repeat: {
-            type: DataTypes.STRING(20), // 'yearly', 'monthly', 'none'
-            defaultValue: 'none',
-        },
+            type: DataTypes.ENUM('once', 'daily', 'weekly', 'monthly', 'yearly'),
+            defaultValue: 'once',
+          },
         notes: DataTypes.TEXT,
         status: {
             type: DataTypes.STRING(20),
@@ -38,8 +38,17 @@ module.exports = (sequelize, DataTypes) => {
         },
     }, {
         tableName: 'events',
-        timestamps: false,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: false,
     });
+
+    Event.associate = models => {
+        Event.belongsTo(models.Pet, {
+          foreignKey: 'pet_id',
+          as: 'pet',
+        });
+      };
 
     return Event;
 };

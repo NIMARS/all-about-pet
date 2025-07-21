@@ -7,7 +7,6 @@ const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const petRoutes = require('./routes/petRoutes');
 
-
 const app = express();
 
 // Middleware
@@ -26,6 +25,13 @@ app.use('/api', eventRoutes);
 app.get('/api/health', (req, res) => {
   res.send('OK');
 });
+
+// uploading/del files
+const path = require('path');
+const documentRoutes = require('./routes/documentRoutes');
+app.use('/api/documents', documentRoutes);
+app.use('/uploads/documents', express.static(path.join(__dirname, 'uploads', 'documents')));
+
 
 // Подключение и запуск
 sequelize

@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       createdAt: 'created_at',
       updatedAt: false,
     });
-  
+    
     return Pet;
   };
-  
