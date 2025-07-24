@@ -1,4 +1,3 @@
-// /middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const { User, Pet } = require('../models');
 require('dotenv').config();

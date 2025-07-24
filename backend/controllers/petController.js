@@ -1,5 +1,5 @@
 // /controllers/petController.js
-const { Pet, User } = require('../models');
+const { Pet, User, UserPet } = require('../models');
 
 exports.getAllPets = async (req, res) => {
   try {
@@ -83,11 +83,22 @@ exports.updatePet = async (req, res) => {
 
 exports.deletePet = async (req, res) => {
   try {
-    const pet = await Pet.findByPk(req.params.id);
+    const pet_id = req.params.id;
+    const user = req.user;
+
+    const pet = await Pet.findByPk(pet_id);
     if (!pet) return res.status(404).json({ message: 'Pet not found' });
+
+    if (user.role !== 'admin') {
+      const userPet = await UserPet.findOne({ where: { user_id: user.id, pet_id } });
+      if (!userPet) return res.status(403).json({ message: 'Access denied to this pet' });
+    }
+
     await pet.destroy();
-    res.json({ message: 'Pet deleted' });
+    res.json({ message: 'Pet deleted successfully' });
+
   } catch (err) {
-    res.status(500).json({ error: 'Failed to delete pet' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error while deleting pet' });
   }
 };

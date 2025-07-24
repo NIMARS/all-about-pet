@@ -11,12 +11,6 @@ router.get('/:id', authMiddleware, petController.getPetById);
 router.post('/', authMiddleware, petController.createPet);
 router.put('/:id', authMiddleware, petController.updatePet);
 
-router.delete(
-    '/:pet_id',
-    authMiddleware,
-    checkRole(['admin']),
-    petController.deletePet
-  );
 router.delete('/:id', authMiddleware, petController.deletePet);
 
 module.exports = router;

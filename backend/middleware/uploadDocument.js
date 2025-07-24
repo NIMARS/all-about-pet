@@ -9,12 +9,14 @@ const storage = multer.diskStorage({
     cb(null, dir);
   },
   filename: function (req, file, cb) {
+    const petId = req.params.pet_id || 'unknown';
     const ext = path.extname(file.originalname);
-    const unique = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
-    cb(null, unique);
+    const base = path.parse(file.originalname).name;
+    const timestamp = Date.now();
+    cb(null, `${base}_pet${petId}_${timestamp}${ext}`);
   }
 });
-
+ 
 const upload = multer({
   storage,
   limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
