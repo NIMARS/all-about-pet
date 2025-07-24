@@ -1,4 +1,4 @@
-export default function PageName() {
+export default function Profile() {
     return (
       <div>
         <h2 className="text-2xl font-heading text-primary">Profile</h2>

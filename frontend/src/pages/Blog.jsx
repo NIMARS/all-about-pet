@@ -1,4 +1,4 @@
-export default function PageName() {
+export default function Blog() {
     return (
       <div>
         <h2 className="text-2xl font-heading text-primary">Main blog!</h2>

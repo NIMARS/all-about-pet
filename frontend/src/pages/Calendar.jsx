@@ -1,4 +1,4 @@
-export default function PageName() {
+export default function Calendar() {
     return (
       <div>
         <h2 className="text-2xl font-heading text-primary">Personal calendar.</h2>

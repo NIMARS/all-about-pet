@@ -1,4 +1,4 @@
-export default function PageName() {
+export default function NotFound() {
     return (
       <div>
         <h2 className="text-2xl font-heading text-primary">NOT FOUND PAGE</h2>
