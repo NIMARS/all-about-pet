@@ -10,7 +10,7 @@ export const useAuth = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
-    navigate('/login');
+    navigate('/auth/login');
   }, [navigate, setUser]);
 
   const token = localStorage.getItem('token');
