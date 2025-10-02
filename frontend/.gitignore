@@ -10,7 +10,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
 dist
 dist-ssr
 *.local
@@ -31,6 +30,7 @@ node_modules/
 
 # Production build
 dist/
+build/
 
 # System
 .DS_Store
@@ -38,10 +38,6 @@ Thumbs.db
 
 # Vite
 .vite/
-
-# Env files
-.env
-.env.*.local
 
 # Editor / OS
 .idea/
@@ -51,3 +47,17 @@ Thumbs.db
 # Tailwind / PostCSS cache
 .postcssrc.*
 .tailwind.config.*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Test coverage
+coverage/
+*.lcov
+
+# Test results
+test-results/
