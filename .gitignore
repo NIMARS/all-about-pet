@@ -14,6 +14,9 @@ tree.txt
 # uploads folder
 uploads/
 
+# things from express
+_old_stuff
+
 # readme tmp
 readmehided.md
 
